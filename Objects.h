@@ -1,0 +1,6 @@
+enum Textures {
+	PADDLE,
+	BALL,
+	BACKGROUND,
+	EMPTYTEXTURE
+};
