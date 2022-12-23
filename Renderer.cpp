@@ -1,7 +1,7 @@
 #include "Renderer.h"
 
-Renderer::Renderer(Paddle* paddle, const int screenWidth, const int screenHeight) : mWindow(nullptr), mRenderer(nullptr),
-mPaddle(paddle), mScreenWidth(screenWidth), mScreenHeight(screenHeight)
+Renderer::Renderer(Paddle* paddle, Ball* ball, const int screenWidth, const int screenHeight) : mWindow(nullptr), mRenderer(nullptr),
+mPaddle(paddle), mBall(ball), mScreenWidth(screenWidth), mScreenHeight(screenHeight)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cout << "Couldnt initialize the renderer" << SDL_GetError() << "\n";
@@ -19,7 +19,8 @@ mPaddle(paddle), mScreenWidth(screenWidth), mScreenHeight(screenHeight)
 
 	mLevel = new Level();
 	mLevel->LoadLevel(mRenderer);
-	mTextures[PADDLE] = IMG_LoadTexture(mRenderer, mPaddle->GetTexture().c_str());
+	mTextures[PADDLETEXTURE] = IMG_LoadTexture(mRenderer, mPaddle->GetTexture().c_str());
+	mTextures[BALLTEXTURE] = IMG_LoadTexture(mRenderer, mBall->GetTexture().c_str());
 }
 
 Renderer::~Renderer()
@@ -28,15 +29,17 @@ Renderer::~Renderer()
 	SDL_DestroyRenderer(mRenderer); mRenderer = nullptr;
 	delete mLevel; mLevel = nullptr;
 
-	for (int i = 0; i < EMPTYTEXTURE; i++) {
+	for (int i = 0; i < TEXTUREEMPTY; i++) {
 		SDL_DestroyTexture(mTextures[i]); mTextures[i] = nullptr;
 	}
 }
 
 void Renderer::RenderLevel()
 {
+	RenderBackground();
 	RenderBricks();
 	RenderPaddle();
+	RenderBall();
 }
 
 void Renderer::RenderBricks()
@@ -53,5 +56,17 @@ void Renderer::RenderBricks()
 void Renderer::RenderPaddle()
 {
 	SDL_Rect src = { 0, 0, 80, 20 };
-	SDL_RenderCopy(mRenderer, mTextures[PADDLE], &src, mPaddle->GetRect());
+	SDL_RenderCopy(mRenderer, mTextures[PADDLETEXTURE], &src, mPaddle->GetRect());
+}
+
+void Renderer::RenderBall()
+{
+	SDL_Rect src = { 0, 0, 20, 20 };
+	SDL_RenderCopy(mRenderer, mTextures[BALLTEXTURE], &src, mBall->GetRect());
+}
+
+void Renderer::RenderBackground()
+{
+	SDL_Rect src = { 0, 0, mScreenWidth, mScreenHeight };
+	SDL_RenderCopy(mRenderer, mLevel->GetBackgroundTexture(), &src, &src);
 }

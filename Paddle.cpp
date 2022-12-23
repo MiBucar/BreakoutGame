@@ -1,29 +1,35 @@
 #include "Paddle.h"
 
-Paddle::Paddle(const int screenWidth, const int screenHeight)
+Paddle::Paddle(const int screenWidth, const int screenHeight) : mScreenWidth(screenWidth), mScreenHeight(screenHeight)
 {
 	mTexture = "images//Platform.png";
-	mRect = { screenWidth / 2 - mWidth / 2, screenHeight - 40, mWidth, mHeight }; // Starting position
-	moveVel.x = 3 * mMoveSpeed;
-}
-
-void Paddle::Spawn()
-{
+	mMovePos.x = mScreenWidth / 2 - mWidth / 2;
+	mRect = { static_cast<int>(mMovePos.x), mScreenHeight - 40, mWidth, mHeight }; // Starting position
 }
 
 void Paddle::Move(float deltaTime)
 {
-	int direction = 0;
+	mRect.x = mMovePos.x;
+	mDirectionX = 0;
 
-	const Uint8* state = SDL_GetKeyboardState(NULL);
+	const Uint8* state = SDL_GetKeyboardState(nullptr);
+
 	if (state[SDL_SCANCODE_D]) {
-		direction += 1;
+		mDirectionX = 1;
 	}
 	if (state[SDL_SCANCODE_A]) {
-		direction -= 1;
+		mDirectionX = -1;
 	}
 
-	if (direction != 0) {
-		mRect.x += deltaTime * moveVel.x * direction;
+	mMovePos.x += mVelX * mDirectionX * deltaTime;
+}
+
+void Paddle::BlockPaddle(int side)
+{
+	if (side == 0) {
+		mRect.x = mScreenWidth - mRect.w;
+	}
+	else if (side == 1) {
+		mRect.x = 0;
 	}
 }

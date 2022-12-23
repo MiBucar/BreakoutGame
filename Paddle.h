@@ -1,26 +1,37 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_image.h>
 #include <iostream>
-#include <Vector2D.h>
+
+struct Vector2D {
+	float x;
+	float y;
+};
 
 class Paddle
 {
 public:
 	Paddle(const int screenWidth, const int screenHeight);
-	void Spawn();
 	void Move(float deltaTime);
 
 	std::string GetTexture() const { return mTexture; };
+	float GetDirection() const { return mDirectionX; };
 	const SDL_Rect* GetRect() const { return &mRect; };
+
+	void BlockPaddle(int side);
+
 private:
 	std::string mTexture;
 	SDL_Rect mRect;
 
 	const int mWidth = 80;
 	const int mHeight = 20;
-	const int mMoveSpeed = 200;
+	const int mScreenHeight;
+	const int mScreenWidth;
 
-	Vector2D moveVel;
-	Vector2D movePos;
+	float mDirectionX;
+	const float mVelX = 500;
+
+	Vector2D mMovePos;
 };
 

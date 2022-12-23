@@ -1,6 +1,9 @@
-enum Textures {
-	PADDLE,
-	BALL,
-	BACKGROUND,
-	EMPTYTEXTURE
-};
+namespace obj {
+	enum EntitiyTextures {
+		PADDLETEXTURE,
+		BALLTEXTURE,
+		TEXTUREEMPTY
+	};
+}
+
+

@@ -1,13 +1,10 @@
 #include "Level.h"
 
-Level::Level()
-{
-}
-
 Level::~Level()
 {
 	delete mDoc; mDoc = nullptr;
 	mDataElement = nullptr;
+	SDL_DestroyTexture(mBackgroundTexture); mBackgroundTexture = nullptr;
 }
 
 void Level::LoadLevel(SDL_Renderer* renderer)
@@ -21,7 +18,7 @@ void Level::LoadLevel(SDL_Renderer* renderer)
 	mRowSpacing = GetValueFromFile("RowSpacing");
 	mRowSpacingDuplicate = mRowSpacing;
 	mColumns = GetValueFromFile("ColumnCount");
-	mBackgroundTexture = GetTextureFromFile();
+	mBackgroundTexture = IMG_LoadTexture(renderer, GetTextureFromFile().c_str());
 	mBrickPlan = GetBrickPlanFromFile();
 
 	SetBrickTypes();

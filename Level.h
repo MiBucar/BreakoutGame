@@ -8,15 +8,16 @@
 #include <vector>
 #include <SDL.h>
 #include <unordered_set>
+#include <SDL_image.h>
 using namespace tinyxml2;
 
 class Level
 {
 public:
-	Level();
 	~Level();
 	void LoadLevel(SDL_Renderer* renderer);
 	std::vector<Brick> GetBricks() const { return mBrickArr; };
+	SDL_Texture* GetBackgroundTexture() const { return mBackgroundTexture; };
 private:
 	int GetValueFromFile(std::string text) const;
 	std::string GetTextureFromFile() const;
@@ -34,12 +35,12 @@ private:
 
 	XMLDocument* mDoc;
 	XMLElement* mDataElement;
+	SDL_Texture* mBackgroundTexture; // Create the texture here so we wouldn't have to do it every frame
 
 	const int mBrickWidth = 80;
 	const int mBrickHeight = 20;
 
 	int mRows, mRowSpacing, mRowSpacingDuplicate, mColumns, mColumnSpacing, mColumnSpacingDuplicate;
-	std::string mBackgroundTexture;
 	std::string mBrickPlan;
 };
 
