@@ -184,7 +184,7 @@ void Game::CheckIfClear()
 
 	if (areHit == mLevel->GetBricks()->size()) {
 
-		// If its the last level load deathScreen instead of next level
+		// If its the last level load deathScreen instead of the next level
 		if (mLevel->GetCurrentLevel() == mLevel->GetMaxLevel()) { 
 			TurnOnMenu();
 		}
