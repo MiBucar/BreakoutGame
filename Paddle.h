@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
+#include <Objects.h>
 
 struct Vector2D {
 	float x;
@@ -13,15 +14,16 @@ class Paddle
 public:
 	Paddle(const int screenWidth, const int screenHeight);
 	void Move(float deltaTime);
+	void Reset();
 
-	std::string GetTexture() const { return mTexture; };
-	float GetDirection() const { return mDirectionX; };
+	int GetDirection() const { return mDirectionX; };
+	float GetMovePosX() const { return mMovePosX; };
 	const SDL_Rect* GetRect() const { return &mRect; };
 
 	void BlockPaddle(int side);
 
+	int GetY() const { return mRect.y; };
 private:
-	std::string mTexture;
 	SDL_Rect mRect;
 
 	const int mWidth = 80;
@@ -32,6 +34,6 @@ private:
 	float mDirectionX;
 	const float mVelX = 500;
 
-	Vector2D mMovePos;
+	float mMovePosX;
 };
 

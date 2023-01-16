@@ -18,3 +18,17 @@ void Brick::CreateTexture(SDL_Renderer* renderer)
 {
 	mTexture = IMG_LoadTexture(renderer, mTexturePath.c_str());
 }
+
+void Brick::Hit()
+{
+	mHp--;
+	if (mHp == 0) {
+		mIsHit = true;
+	}
+}
+
+void Brick::DestroyRect()
+{
+	mBrickRect.w = 0;
+	mBrickRect.h = 0;
+}

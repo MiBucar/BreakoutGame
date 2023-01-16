@@ -1,26 +1,30 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
+#include <Brick.h>
+#include <Objects.h>
 
 class Ball
 {
 public:
 	Ball();
-	void Move(const SDL_Rect* paddleRect, int dir);
+	void Move(const SDL_Rect* paddleRect, float deltaTime, int dir);
+	void Reset();
+	void BlockBall(int side);
+	void Bounce(int side);
 
-	std::string GetTexture() const { return mTexture; };
 	const SDL_Rect* GetRect() const { return &mRect; };
-
 private:
-	void ShootInDirection(int dir);
-
 	SDL_Rect mRect;
-	std::string mTexture;
 
 	const int mWidth = 20;
 	const int mHeight = 20;
 	bool mLocked = true;
 
-	int mDirection;
+	float mDirectionX;
+	float mDirectionY;
+	float mMovePosX;
+	float mMovePosY;
+	const float mVel = 300;
 };
 

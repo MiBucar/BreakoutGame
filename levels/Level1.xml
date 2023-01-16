@@ -39,7 +39,8 @@
       <BreakScore>0</BreakScore>
     </BrickType>
   </BrickTypes>
-  <Bricks>M M M M H S S S S S H M M M M
-S E E S S S E E E S S S E E S
-S S S S S S S S S S S S S S S</Bricks>
+  <Bricks>E E E E E E E E E E E E E E E
+E E E E E E E E E E E E E E E
+E E E E E E E E E E E E E S E
+</Bricks>
 </Level>

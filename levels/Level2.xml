@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Level>
-  <RowCount>4</RowCount>
+  <RowCount>3</RowCount>
   <ColumnCount>15</ColumnCount>
   <RowSpacing>5</RowSpacing>
   <ColumnSpacing>5</ColumnSpacing>
-  <BackgroundTexture>images//textures//Background.png</BackgroundTexture>
+  <BackgroundTexture>images//textures//Background2.png</BackgroundTexture>
   <BrickTypes>
     <BrickType>
       <Id>S</Id>
@@ -35,11 +35,12 @@
       <Texture>images//textures//BrickInfinite.png</Texture>
       <HitPoints>Infinite</HitPoints>
       <HitSound>sounds//BrickHit.wav</HitSound>
+	<BreakSound>none</BreakSound>
       <BreakScore>0</BreakScore>
     </BrickType>
   </BrickTypes>
-  <Bricks>H H M M M I S S S I M M M H H
-S H H S S S E E E S S S H H S
-S S S S S M M M M M S S S S S
-S S S S S S S S S S S S S S S</Bricks>
+  <Bricks>E E E E E E E E E E E E E E E
+E E E E E E E E E E E E E E E
+E E E E E E E E E E E E E S E
+</Bricks>
 </Level>

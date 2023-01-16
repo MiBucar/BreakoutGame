@@ -1,5 +1,25 @@
 #include "Level.h"
 
+Level::Level() : mTopWallRect{0, 0, 1280, 70}, mLivesRect{640 - 75, 20, 150, 30}
+{
+	mCurrentLevel = 0;
+	mLevels[0] = "levels//Level1.xml"; mLevels[1] = "levels//Level2.xml"; mLevels[2] = "levels//Level3.xml";
+
+	mTopMargin = mTopWallRect.h;
+
+	mBackgroundRect = { 0, 0, 1280, 720 };
+
+	mTexturePath[TEXTUREPATH_BALL] = "images//Ball.png";
+	mTexturePath[TEXTUREPATH_PADDLE] = "images//Platform.png";
+	mTexturePath[TEXTUREPATH_TOPWALL] = "images//TopWall.png";
+	mTexturePath[TEXTUREPATH_LIVES] = "images//Lives.png";
+
+	mMusicPath = "sounds//M.O.O.N. - Hydrogen.mp3";
+
+	mScore = 0;
+	mLives = 3;
+}
+
 Level::~Level()
 {
 	delete mDoc; mDoc = nullptr;
@@ -12,7 +32,7 @@ void Level::LoadLevel(SDL_Renderer* renderer)
 	mBrickArr.clear();
 
 	mDoc = new XMLDocument();
-	mDoc->LoadFile("levels//Level1.xml");
+	mDoc->LoadFile(mLevels[mCurrentLevel].c_str());
 	mDataElement = mDoc->FirstChildElement("Level")->FirstChildElement("BrickTypes");
 	mRows = GetValueFromFile("RowCount");
 	mRowSpacing = GetValueFromFile("RowSpacing");
@@ -29,6 +49,15 @@ void Level::LoadLevel(SDL_Renderer* renderer)
 	for (auto &brick : mBrickArr) {
 		brick.CreateTexture(renderer);
 	}
+}
+
+int Level::GetMaxLevel() const
+{
+	int maxLevel = 0;
+	for (auto level : mLevels) {
+		maxLevel++;
+	}
+	return maxLevel - 1;
 }
 
 int Level::GetValueFromFile(std::string text) const
@@ -101,7 +130,7 @@ void Level::MakeBrickRects()
 		mColumnSpacingDuplicate = mColumnSpacing;
 
 		for (int j = 0; j < mColumns; j++) {
-			SDL_Rect brickRect = { mColumnSpacing, mRowSpacing, mBrickWidth, mBrickHeight };
+			SDL_Rect brickRect = { mColumnSpacing, mRowSpacing + mTopMargin, mBrickWidth, mBrickHeight };
 			mBrickRect.push_back(brickRect);
 			mColumnSpacing = mBrickWidth + mColumnSpacing + mColumnSpacingDuplicate;
 			index++;

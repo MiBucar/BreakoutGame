@@ -4,7 +4,7 @@
   <ColumnCount>15</ColumnCount>
   <RowSpacing>5</RowSpacing>
   <ColumnSpacing>5</ColumnSpacing>
-  <BackgroundTexture>images//textures//Background.png</BackgroundTexture>
+  <BackgroundTexture>images//textures//Background3.png</BackgroundTexture>
   <BrickTypes>
     <BrickType>
       <Id>S</Id>
@@ -35,12 +35,12 @@
       <Texture>images//textures//BrickInfinite.png</Texture>
       <HitPoints>Infinite</HitPoints>
       <HitSound>sounds//BrickHit.wav</HitSound>
+	<BreakSound>none</BreakSound>
       <BreakScore>0</BreakScore>
     </BrickType>
   </BrickTypes>
-  <Bricks>H H M M M I S S S I M M M H H
-S H H E E H H H H H E E H H S
-S H H E E M M M M M E E H H S
-S S S S S M H H H M S S S S
-S M M S S S M H M S S S M M S</Bricks>
+  <Bricks>E E E E E E E E E E E E E E E
+E E E E E E E E E E E E E E E
+E E E E E E E E E E E E E S E
+</Bricks>
 </Level>

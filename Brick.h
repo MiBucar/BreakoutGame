@@ -11,14 +11,16 @@ public:
 
 	void SetRect(SDL_Rect rect) { mBrickRect = rect; };
 	void CreateTexture(SDL_Renderer* renderer);
-	void Hit() { mHp--; };
+	void Hit();
+	void DestroyRect();
 
 	// Getters
 	SDL_Texture* GetTexture() const { return mTexture; };
 	const SDL_Rect* GetRect() const { return &mBrickRect; };
-	int GetHp() const { return mHp; };
-	std::string GetId() const { return mId; };
+	bool IsHit() const { return mIsHit; };
 	std::string GetTexturePatch() const { return mTexturePath; };
+	int GetBreakScore() const { return mBreakScore; };
+
 private:
 	SDL_Rect mBrickRect;
 	SDL_Texture *mTexture;
@@ -28,5 +30,6 @@ private:
 	std::string mBreakSound;
 	int mHp;
 	int mBreakScore;
+	bool mIsHit = false;
 };
 
