@@ -41,7 +41,7 @@ int Collision::BallSurface(const SDL_Rect* rectOne, const SDL_Rect* rectTwo)
         }
     }
 
-    else if (rectOne->y == rectTwo->y) {
+    else if (rectOne->y == rectTwo->y || rectOne->y + 1 == rectTwo->y) {
         return SIDE_TOP;
     }
 

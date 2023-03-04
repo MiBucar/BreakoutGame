@@ -101,6 +101,7 @@ int Data::GetAudioLevel(int type)
 	ss >> num;
 
 	mFileI[FILE_AUDIO].close();
+
 	return num;
 }
 

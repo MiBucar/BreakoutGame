@@ -57,10 +57,12 @@ void Ball::Bounce(int side)
 {
 	if (side == SIDE_LEFT) {
 		mDirectionX = -1;
+		mMovePosX = mMovePosX - 1;
 	}
 
 	else if (side == SIDE_RIGHT) {
 		mDirectionX = 1;
+		mMovePosX = mMovePosX + 1;
 	}
 
 	else if (side == SIDE_TOP) {
@@ -69,5 +71,6 @@ void Ball::Bounce(int side)
 
 	else if (side == SIDE_BOTTOM) {
 		mDirectionY = 1;
+		mMovePosY = mMovePosY + 1;
 	}
 }

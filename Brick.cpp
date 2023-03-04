@@ -12,6 +12,7 @@ Brick::Brick(std::string id, std::string texture, std::string hitSound, std::str
 
 Brick::~Brick()
 {
+	SDL_DestroyTexture(mTexture); mTexture = nullptr;
 }
 
 void Brick::CreateTexture(SDL_Renderer* renderer)
@@ -22,6 +23,7 @@ void Brick::CreateTexture(SDL_Renderer* renderer)
 void Brick::Hit()
 {
 	mHp--;
+	std::cout << mHp << std::endl;
 	if (mHp == 0) {
 		mIsHit = true;
 	}

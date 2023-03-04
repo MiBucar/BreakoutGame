@@ -8,6 +8,10 @@ mRenderer(mMenu, mLevel, mPaddle, mBall, mScreenWidth, mScreenHeight), mMousePos
 	mFps = 0;
 	mFrameCount = 0;
 	mResult = { 0, 0, 0, 0 };
+
+	// Ensure music and sound remain changed upon launching the game
+	mMenu->ChangeMusicLevel(mData.GetAudioLevel(AUDIO_MUSIC));
+	mMenu->ChangeSoundLevel(mData.GetAudioLevel(AUDIO_SOUND));
 }
 
 Game::~Game()
