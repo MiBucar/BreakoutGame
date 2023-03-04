@@ -200,8 +200,8 @@ void Renderer::RenderTopWall()
 	mText[TEXT_SCORE] = std::to_string(mLevel->GetScore());
 	mTextSurface[TEXT_SCORE] = TTF_RenderText_Solid(mFont, mText[TEXT_SCORE].c_str(), mWhiteColor);
 	mTextTexture[TEXT_SCORE] = SDL_CreateTextureFromSurface(mRenderer, mTextSurface[TEXT_SCORE]);
-	textDest = { 1220, 10, 25, 45 };
-	mSrc = { 0, 0, 25, 45 };
+	textDest = { 1220, 10, 35, 45 };
+	mSrc = { 0, 0, 35, 45 }; 
 	SDL_RenderCopy(mRenderer, mTextTexture[TEXT_SCORE], &mSrc, &textDest);
 }
 

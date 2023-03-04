@@ -23,7 +23,6 @@ void Brick::CreateTexture(SDL_Renderer* renderer)
 void Brick::Hit()
 {
 	mHp--;
-	std::cout << mHp << std::endl;
 	if (mHp == 0) {
 		mIsHit = true;
 	}
