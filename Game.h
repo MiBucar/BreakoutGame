@@ -19,7 +19,7 @@ private:
 	void HandleMouse(SDL_MouseButtonEvent btn);
 
 	void CheckCollision();
-	void CheckIfClear();
+	void LoadLevel();
 	bool CheckMousePos(int btn);
 
 	void Reset();
@@ -31,10 +31,10 @@ private:
 	const int mScreenHeight = 720;
 
 	Data mData;
-	Menu* mMenu;
-	Level* mLevel;
-	Paddle* mPaddle;
-	Ball* mBall;
+	Menu mMenu;
+	Level mLevel;
+	Paddle mPaddle;
+	Ball mBall;
 	Renderer mRenderer;
 	SDL_Rect mResult;
 

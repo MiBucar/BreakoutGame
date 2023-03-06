@@ -9,7 +9,7 @@ public:
 	Brick(std::string id, std::string texture, std::string hitSound, std::string breakSound, int hp, int breakScore);
 	~Brick();
 
-	void SetRect(SDL_Rect rect) { mBrickRect = rect; };
+	void SetRect(const SDL_Rect rect) { mBrickRect = rect; };
 	void CreateTexture(SDL_Renderer* renderer);
 	void Hit();
 	void DestroyRect();

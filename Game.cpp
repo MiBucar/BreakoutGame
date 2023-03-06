@@ -1,7 +1,7 @@
 #include "Game.h"
 
-Game::Game() : mIsRunning(true), mMenu(new Menu(mScreenWidth, mScreenHeight)), mLevel(new Level), mPaddle(new Paddle(mScreenWidth, mScreenHeight)), mBall(new Ball),
-mRenderer(mMenu, mLevel, mPaddle, mBall, mScreenWidth, mScreenHeight), mMousePosX(0), mMousePosY(0)
+Game::Game() : mIsRunning(true), mMenu(mScreenWidth, mScreenHeight), mPaddle(mScreenWidth, mScreenHeight),
+mRenderer(&mMenu, &mLevel, &mPaddle, &mBall, mScreenWidth, mScreenHeight), mMousePosX(0), mMousePosY(0)
 {
 	mLastTick = SDL_GetTicks();
 	mFpsTicks = mLastTick;
@@ -10,17 +10,12 @@ mRenderer(mMenu, mLevel, mPaddle, mBall, mScreenWidth, mScreenHeight), mMousePos
 	mResult = { 0, 0, 0, 0 };
 
 	// Ensure music and sound remain changed upon launching the game
-	mMenu->ChangeMusicLevel(mData.GetAudioLevel(AUDIO_MUSIC));
-	mMenu->ChangeSoundLevel(mData.GetAudioLevel(AUDIO_SOUND));
+	mMenu.ChangeMusicLevel(mData.GetAudioLevel(AUDIO_MUSIC));
+	mMenu.ChangeSoundLevel(mData.GetAudioLevel(AUDIO_SOUND));
 }
 
 Game::~Game()
 {
-	delete mMenu; mMenu = nullptr;
-	delete mLevel; mLevel = nullptr;
-	delete mPaddle; mPaddle = nullptr;
-	delete mBall; mBall = nullptr;
-
 	SDL_Quit();
 	IMG_Quit();
 	TTF_Quit();
@@ -88,14 +83,14 @@ void Game::Gameplay()
 
 	if (mGameStarted) {
 		if (!mDeathScreen && !mPause) {
-			mPaddle->Move(deltaTime);
-			mBall->Move(mPaddle->GetRect(), deltaTime, mPaddle->GetDirection());
+			mPaddle.Move(deltaTime);
+			mBall.Move(mPaddle.GetRect(), deltaTime, mPaddle.GetDirection());
 
 			CheckCollision();
-			CheckIfClear();
+			LoadLevel();
 
 			// Open the "game over" menu after the player dies
-			if (mLevel->GetLives() == 0) {
+			if (mLevel.GetLives() == 0) {
 				TurnOnMenu();
 			}
 		}
@@ -136,67 +131,67 @@ void Game::Rendering()
 // Turn on the endgame screen and update the scores
 void Game::TurnOnMenu()
 {
-	mData.AddScore(mLevel->GetScore());
+	mData.AddScore(mLevel.GetScore());
 	mDeathScreen = true;
 }
 
 void Game::CheckCollision()
 {
 	// Wall collisions
-	mPaddle->BlockPaddle(Collision::Wall(mPaddle->GetRect(), mScreenWidth, mScreenHeight, mLevel->GetTopWallRect()->h));
-	mBall->BlockBall(Collision::Wall(mBall->GetRect(), mScreenWidth, mScreenHeight, mLevel->GetTopWallRect()->h));
+	mPaddle.BlockPaddle(Collision::Wall(mPaddle.GetRect(), mScreenWidth, mScreenHeight, mLevel.GetTopWallRect()->h));
+	mBall.BlockBall(Collision::Wall(mBall.GetRect(), mScreenWidth, mScreenHeight, mLevel.GetTopWallRect()->h));
 	
 	// If the ball goes through the floor, reset and lose hp
-	if ((Collision::Wall(mBall->GetRect(), mScreenWidth, mScreenHeight, mLevel->GetTopWallRect()->h)) == SIDE_BOTTOM) {
+	if ((Collision::Wall(mBall.GetRect(), mScreenWidth, mScreenHeight, mLevel.GetTopWallRect()->h)) == SIDE_BOTTOM) {
 		Reset();
-		mLevel->LoseHp();
+		mLevel.LoseHp();
 	}
 
 	// Paddle Ball collisions
-	if (Collision::HasCollided(mBall->GetRect(), mPaddle->GetRect())) {
-		SDL_IntersectRect(mBall->GetRect(), mPaddle->GetRect(), &mResult);
-		mBall->Bounce(Collision::BallSurface(&mResult, mPaddle->GetRect()));
+	if (Collision::HasCollided(mBall.GetRect(), mPaddle.GetRect())) {
+		SDL_IntersectRect(mBall.GetRect(), mPaddle.GetRect(), &mResult);
+		mBall.Bounce(Collision::BallSurface(&mResult, mPaddle.GetRect()));
 	}
 
 	// Ball Brick collisions
-	std::for_each(mLevel->GetBricks()->begin(), mLevel->GetBricks()->end(), [this](Brick &brick) {
+	std::for_each(mLevel.GetBricks()->begin(), mLevel.GetBricks()->end(), [this](Brick &brick) {
 
-		if (Collision::HasCollided(mBall->GetRect(), brick.GetRect())) {
-			SDL_IntersectRect(mBall->GetRect(), brick.GetRect(), &mResult); // Create the point where these 2 intersect
+		if (Collision::HasCollided(mBall.GetRect(), brick.GetRect())) {
+			SDL_IntersectRect(mBall.GetRect(), brick.GetRect(), &mResult); // Create the point where these 2 intersect
 			mResult.y += 1; // Increase the Y by 1 to match the brick Y
-			mBall->Bounce(Collision::BallSurface(&mResult, brick.GetRect())); // Bounce the ball off
+			mBall.Bounce(Collision::BallSurface(&mResult, brick.GetRect())); // Bounce the ball off
 			mRenderer.PlaySound(SOUND_BRICKHIT);
 			brick.Hit();
 			if (brick.IsHit()) {
 				mRenderer.PlaySound(SOUND_BRICKBREAK);
-				mLevel->AddToScore(brick.GetBreakScore());
+				mLevel.AddToScore(brick.GetBreakScore());
 			}
 		}
 		});
 }
 
-void Game::CheckIfClear()
+void Game::LoadLevel()
 {
 	int areHit = 0;
 
 	// Increase areHit for each brick that has been hit
-	for (int i = 0; i < mLevel->GetBricks()->size(); i++) { 
-		if (mLevel->GetBricks()->at(i).IsHit()) {
+	for (int i = 0; i < mLevel.GetBricks()->size(); i++) { 
+		if (mLevel.GetBricks()->at(i).IsHit()) {
 			areHit++;
 		}
 	}
 
-	if (areHit == mLevel->GetBricks()->size()) {
+	if (areHit == mLevel.GetBricks()->size()) {
 
 		// If its the last level load deathScreen instead of the next level
-		if (mLevel->GetCurrentLevel() == mLevel->GetMaxLevel()) { 
+		if (mLevel.GetCurrentLevel() == mLevel.GetMaxLevel()) { 
 			TurnOnMenu();
 		}
 
 		// Load next level
 		else {
-			mLevel->IncreaseLevel();
-			mLevel->LoadLevel(mRenderer.GetRenderer());
+			mLevel.IncreaseLevel();
+			mLevel.LoadLevel(mRenderer.GetRenderer());
 			Reset(); // Reset paddle and ball position
 		}
 	}
@@ -238,22 +233,22 @@ void Game::HandleMouse(SDL_MouseButtonEvent btn)
 				if (CheckMousePos(BTN_LEFTVOLUME_ONE)) {
 					mRenderer.PlaySound(SOUND_BUTTON);
 					mData.ChangeAudio(-1, AUDIO_MUSIC);
-					mMenu->ChangeMusicLevel(mData.GetAudioLevel(AUDIO_MUSIC));
+					mMenu.ChangeMusicLevel(mData.GetAudioLevel(AUDIO_MUSIC));
 				}
 				if (CheckMousePos(BTN_RIGHTVOLUME_ONE)) {
 					mRenderer.PlaySound(SOUND_BUTTON);
 					mData.ChangeAudio(1, AUDIO_MUSIC);
-					mMenu->ChangeMusicLevel(mData.GetAudioLevel(AUDIO_MUSIC));
+					mMenu.ChangeMusicLevel(mData.GetAudioLevel(AUDIO_MUSIC));
 				}
 				if (CheckMousePos(BTN_LEFTVOLUME_TWO)) {
 					mRenderer.PlaySound(SOUND_BUTTON);
 					mData.ChangeAudio(-1, AUDIO_SOUND);
-					mMenu->ChangeSoundLevel(mData.GetAudioLevel(AUDIO_SOUND));
+					mMenu.ChangeSoundLevel(mData.GetAudioLevel(AUDIO_SOUND));
 				}
 				if (CheckMousePos(BTN_RIGHTVOLUME_TWO)) {
 					mRenderer.PlaySound(SOUND_BUTTON);
 					mData.ChangeAudio(1, AUDIO_SOUND);
-					mMenu->ChangeSoundLevel(mData.GetAudioLevel(AUDIO_SOUND));
+					mMenu.ChangeSoundLevel(mData.GetAudioLevel(AUDIO_SOUND));
 				}
 			}
 
@@ -302,8 +297,8 @@ void Game::HandleMouse(SDL_MouseButtonEvent btn)
 // Return true if the mouse position is inside the button
 bool Game::CheckMousePos(int btn) 
 {
-	if (mMousePosX >= mMenu->GetButtonRect(btn)->x && mMousePosX <= mMenu->GetButtonRect(btn)->x + mMenu->GetButtonRect(btn)->w &&
-		mMousePosY >= mMenu->GetButtonRect(btn)->y && mMousePosY <= mMenu->GetButtonRect(btn)->y + mMenu->GetButtonRect(btn)->h) {
+	if (mMousePosX >= mMenu.GetButtonRect(btn)->x && mMousePosX <= mMenu.GetButtonRect(btn)->x + mMenu.GetButtonRect(btn)->w &&
+		mMousePosY >= mMenu.GetButtonRect(btn)->y && mMousePosY <= mMenu.GetButtonRect(btn)->y + mMenu.GetButtonRect(btn)->h) {
 		return true;
 	}
 
@@ -313,16 +308,16 @@ bool Game::CheckMousePos(int btn)
 // Reset paddle's and ball's position
 void Game::Reset() 
 {
-	mPaddle->Reset();
-	mBall->Reset();
+	mPaddle.Reset();
+	mBall.Reset();
 }
 
 void Game::Restart()
 {
-	mLevel->ResetHp();
-	mLevel->ResetLevel();
-	mLevel->ResetScore();
-	mLevel->LoadLevel(mRenderer.GetRenderer());
+	mLevel.ResetHp();
+	mLevel.ResetLevel();
+	mLevel.ResetScore();
+	mLevel.LoadLevel(mRenderer.GetRenderer());
 }
 
 float Game::SetDeltaTime()
