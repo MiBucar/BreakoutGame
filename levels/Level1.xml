@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Level>
-  <RowCount>3</RowCount>
+  <RowCount>6</RowCount>
   <ColumnCount>15</ColumnCount>
   <RowSpacing>5</RowSpacing>
   <ColumnSpacing>5</ColumnSpacing>
@@ -39,8 +39,10 @@
       <BreakScore>0</BreakScore>
     </BrickType>
   </BrickTypes>
-  <Bricks>M M S S S S S S S S S S S M M
-S E E E S S M M M S S E E E S
-S S S S S S S S S S S S S S S
+  <Bricks>S S S S S S S E E E E E E E E
+S S S S S S S E E E E E E E E 
+S S S S S S S E E E E E E E E
+S S S S S S S E E E E E E E E 
+S S S S S S S E E E E E E E E
 </Bricks>
 </Level>

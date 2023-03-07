@@ -157,9 +157,7 @@ void Game::CheckCollision()
 	std::for_each(mLevel.GetBricks()->begin(), mLevel.GetBricks()->end(), [this](Brick &brick) {
 
 		if (Collision::HasCollided(mBall.GetRect(), brick.GetRect())) {
-			SDL_IntersectRect(mBall.GetRect(), brick.GetRect(), &mResult); // Create the point where these 2 intersect
-			mResult.y += 1; // Increase the Y by 1 to match the brick Y
-			mBall.Bounce(Collision::BallSurface(&mResult, brick.GetRect())); // Bounce the ball off
+			mBall.Bounce(Collision::BallSurface(mBall.GetRect(), brick.GetRect())); // Bounce the ball off
 			mRenderer.PlaySound(SOUND_BRICKHIT);
 			brick.Hit();
 			if (brick.IsHit()) {

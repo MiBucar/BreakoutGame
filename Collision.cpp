@@ -31,22 +31,26 @@ bool Collision::HasCollided(const SDL_Rect* rectOne, const SDL_Rect* rectTwo)
 
 int Collision::BallSurface(const SDL_Rect* rectOne, const SDL_Rect* rectTwo)
 {
-    if (rectOne->y < rectTwo->y + rectTwo->h && rectOne->y != rectTwo->y) {
-        if (rectOne->x == rectTwo->x) {
+    if (rectOne->x + rectOne->w - 1 > rectTwo->x && rectOne->x < rectTwo->x + rectTwo->w - 1) {
+
+        if (rectOne->y + rectOne->h == rectTwo->y + 1) {
+            return SIDE_TOP;
+        }
+
+        else if (rectOne->y == rectTwo->y + rectTwo->h - 1) {
+            return SIDE_BOTTOM;
+        }
+    }
+
+    else {
+
+        if (rectOne->x + rectOne->w - 1 == rectTwo->x) {
             return SIDE_LEFT;
         }
 
         else if (rectOne->x + 1 == rectTwo->x + rectTwo->w) {
             return SIDE_RIGHT;
         }
-    }
-
-    else if (rectOne->y == rectTwo->y || rectOne->y + 1 == rectTwo->y) {
-        return SIDE_TOP;
-    }
-
-    else if (rectOne->y == rectTwo->y + rectTwo->h) {
-        return SIDE_BOTTOM;
     }
 
     return -1;

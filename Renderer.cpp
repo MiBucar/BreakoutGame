@@ -66,11 +66,6 @@ Renderer::~Renderer()
 	}
 
 	mFont = nullptr; TTF_CloseFont(mFont);
-
-	mMenu = nullptr;
-	mLevel = nullptr;
-	mPaddle = nullptr;
-	mBall = nullptr;
 }
 
 void Renderer::RenderLevel()

@@ -39,7 +39,7 @@ private:
 	SDL_Rect mResult;
 
 	unsigned int mLastTick, mFpsTicks, mFps, mFrameCount;
-	const int mFpsDelay = 0;
+	const int mFpsDelay = 500;
 
 	bool mIsRunning;
 	bool mGameStarted = false;
