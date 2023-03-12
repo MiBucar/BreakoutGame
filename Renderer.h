@@ -43,6 +43,7 @@ private:
 	void RenderHealth();
 	void RenderHighScoreText(int id, int num);
 	void RenderAudioLevels(int musicLevel, int type);
+	void ClearTextPointers(int id);
 
 	SDL_Renderer* mRenderer;
 	SDL_Window* mWindow;
@@ -60,6 +61,7 @@ private:
 	std::string mText[TEXT_EMPTY];
 	SDL_Surface* mTextSurface[TEXT_EMPTY];
 	SDL_Texture* mTextTexture[TEXT_EMPTY];
+
 	SDL_Texture* mAudioLevelTexture;
 
 	// Text in leaderboard menu

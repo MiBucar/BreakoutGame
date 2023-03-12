@@ -53,6 +53,9 @@ Renderer::~Renderer()
 
 	for (int i = 0; i < TEXT_EMPTY; i++) {
 		SDL_FreeSurface(mTextSurface[i]); mTextSurface[i] = nullptr;
+	}
+
+	for (int i = 0; i < TEXT_EMPTY; i++) {
 		SDL_DestroyTexture(mTextTexture[i]); mTextTexture[i] = nullptr;
 	}
 
@@ -65,6 +68,7 @@ Renderer::~Renderer()
 		Mix_FreeChunk(mSound[i]); mSound[i] = nullptr;
 	}
 
+	SDL_DestroyTexture(mAudioLevelTexture); mAudioLevelTexture = nullptr;
 	mFont = nullptr; TTF_CloseFont(mFont);
 }
 
@@ -101,6 +105,7 @@ void Renderer::RenderDeathScreen(int highScore)
 	mTextTexture[TEXT_HIGHSCORE] = SDL_CreateTextureFromSurface(mRenderer, mTextSurface[TEXT_HIGHSCORE]);
 	mSrc = { 0, 0, 35, 45 };
 	SDL_RenderCopy(mRenderer, mTextTexture[TEXT_HIGHSCORE], &mSrc, &textDest);
+	ClearTextPointers(TEXT_HIGHSCORE);
 }
 
 void Renderer::RenderScoreScreen(int arr[5])
@@ -145,6 +150,7 @@ void Renderer::RenderPauseScreen(int highScore)
 	mTextTexture[TEXT_HIGHSCORE] = SDL_CreateTextureFromSurface(mRenderer, mTextSurface[TEXT_HIGHSCORE]);
 	mSrc = { 0, 0, 35, 45 };
 	SDL_RenderCopy(mRenderer, mTextTexture[TEXT_HIGHSCORE], &mSrc, &textDest);
+	ClearTextPointers(TEXT_HIGHSCORE);
 }
 
 void Renderer::RenderBricks()
@@ -191,6 +197,7 @@ void Renderer::RenderTopWall()
 	textDest = { 130, 10, 15, 45 };
 	mSrc = { 0, 0, 15, 45 };
 	SDL_RenderCopy(mRenderer, mTextTexture[TEXT_LEVEL], &mSrc, &textDest);
+	ClearTextPointers(TEXT_LEVEL);
 
 	mText[TEXT_SCORE] = std::to_string(mLevel->GetScore());
 	mTextSurface[TEXT_SCORE] = TTF_RenderText_Solid(mFont, mText[TEXT_SCORE].c_str(), mWhiteColor);
@@ -198,6 +205,7 @@ void Renderer::RenderTopWall()
 	textDest = { 1220, 10, 35, 45 };
 	mSrc = { 0, 0, 35, 45 }; 
 	SDL_RenderCopy(mRenderer, mTextTexture[TEXT_SCORE], &mSrc, &textDest);
+	ClearTextPointers(TEXT_SCORE);
 }
 
 void Renderer::RenderButton(SDL_Texture* texture, const SDL_Rect* destRect)
@@ -281,6 +289,13 @@ void Renderer::RenderAudioLevels(int musicLevel, int type)
 void Renderer::PlaySound(int id)
 {
 	Mix_PlayChannel(-1, mSound[id], 0);
+}
+
+// set pointers to nullptr after a texture for text is created, otherwise it would overload the system
+void Renderer::ClearTextPointers(int id)
+{
+	SDL_DestroyTexture(mTextTexture[id]); mTextTexture[id] = nullptr;
+	SDL_FreeSurface(mTextSurface[id]); mTextSurface[id] = nullptr;
 }
 
 void Renderer::InitTextures()
