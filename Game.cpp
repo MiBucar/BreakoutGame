@@ -332,5 +332,7 @@ float Game::SetDeltaTime()
 	}
 	mLastTick = curtick;
 
+	std::cout << deltaTime << "\n";
+
 	return deltaTime;
 }

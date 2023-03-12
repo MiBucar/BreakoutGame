@@ -50,5 +50,7 @@ private:
 
 	int mMousePosX;
 	int mMousePosY;
+
+	Uint32 mTicksCount = 0;
 };
 
