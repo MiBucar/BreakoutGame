@@ -68,6 +68,8 @@ Renderer::~Renderer()
 		Mix_FreeChunk(mSound[i]); mSound[i] = nullptr;
 	}
 
+	Mix_FreeMusic(mMusic); mMusic = nullptr;
+
 	SDL_DestroyTexture(mAudioLevelTexture); mAudioLevelTexture = nullptr;
 	mFont = nullptr; TTF_CloseFont(mFont);
 }
