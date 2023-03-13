@@ -12,6 +12,8 @@ public:
 	void Reset();
 	void BlockBall(int side);
 	void Bounce(int side);
+	void IncreaseSpeed();
+	void RestartSpeed();
 
 	const SDL_Rect* GetRect() const { return &mRect; };
 private:
@@ -25,6 +27,6 @@ private:
 	float mDirectionY;
 	float mMovePosX;
 	float mMovePosY;
-	const float mVel = 300;
+	float mVel = 300;
 };
 

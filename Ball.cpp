@@ -74,3 +74,13 @@ void Ball::Bounce(int side)
 		mMovePosY = mMovePosY + 1;
 	}
 }
+
+void Ball::IncreaseSpeed()
+{
+	mVel += 35;
+}
+
+void Ball::RestartSpeed()
+{
+	mVel = 300;
+}

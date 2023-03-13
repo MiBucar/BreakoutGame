@@ -40,6 +40,7 @@ public:
 	int GetCurrentLevel() const { return mCurrentLevel; };
 	int GetMaxLevel() const;
 	int GetScore() const { return mScore; };
+	int GetNumberOfInfinite();
 
 private:
 	int GetValueFromFile(std::string text) const;

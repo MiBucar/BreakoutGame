@@ -158,3 +158,15 @@ void Level::RemoveEmptySpaces()
 		index++;
 	}
 }
+
+int Level::GetNumberOfInfinite()
+{
+	int numberOfInfinite = 0;
+
+	for (int i = 0; i < mBrickArr.size(); i++) {
+		if (mBrickArr[i].GetId() == "I") {
+			numberOfInfinite += 1;
+		}
+	}
+	return numberOfInfinite;
+}

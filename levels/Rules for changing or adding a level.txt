@@ -1,0 +1,27 @@
+TO ADD A NEW TYPE OF BRICK:
+
+    <BrickType>
+      <Id>I</Id>
+      <Texture>images//textures//BrickInfinite.png</Texture>
+      <HitPoints>Infinite</HitPoints>
+      <HitSound>sounds//BrickHit.wav</HitSound>
+	<BreakSound>none</BreakSound>
+      <BreakScore>0</BreakScore>
+    </BrickType>
+
+paste this into the xml file and change the values and then in <Bricks> </Bricks> add the new Id and the game will dynamically update the bricks.
+
+---------------------------------------------------
+
+CHANGING ROWS AND COLUMNS:
+
+To change rows or colums simply change the value of "RowCount" or "ColumnCount" in the xml file.
+MAKE SURE TO increase number of bricks in <Bricks> </Bricks> depending on rows and columns after doing so to make it work! No need to change the code, game will dynamically update. 
+
+----------------------------------------------------------------------------------------------
+
+ADDING NEW LEVEL:
+
+in Level.h change the "std::string mLevels[3];" to the amount of levels you desire. 
+in Level.cpp add a new level in the constructor by doing "mLevels[3] = "levels//Level4.xml";"
+MAKE SURE that name of the file matches in editor

@@ -20,6 +20,7 @@ public:
 	bool IsHit() const { return mIsHit; };
 	std::string GetTexturePatch() const { return mTexturePath; };
 	int GetBreakScore() const { return mBreakScore; };
+	std::string GetId() const { return mId; }
 
 private:
 	SDL_Rect mBrickRect;

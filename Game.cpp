@@ -179,7 +179,7 @@ void Game::LoadLevel()
 		}
 	}
 
-	if (areHit == mLevel.GetBricks()->size()) {
+	if (areHit == mLevel.GetBricks()->size() - mLevel.GetNumberOfInfinite()) {
 
 		// If its the last level load deathScreen instead of the next level
 		if (mLevel.GetCurrentLevel() == mLevel.GetMaxLevel()) { 
@@ -190,6 +190,7 @@ void Game::LoadLevel()
 		else {
 			mLevel.IncreaseLevel();
 			mLevel.LoadLevel(mRenderer.GetRenderer());
+			mBall.IncreaseSpeed();
 			Reset(); // Reset paddle and ball position
 		}
 	}
@@ -315,6 +316,7 @@ void Game::Restart()
 	mLevel.ResetHp();
 	mLevel.ResetLevel();
 	mLevel.ResetScore();
+	mBall.RestartSpeed();
 	mLevel.LoadLevel(mRenderer.GetRenderer());
 }
 
@@ -331,8 +333,6 @@ float Game::SetDeltaTime()
 		mFrameCount++;
 	}
 	mLastTick = curtick;
-
-	std::cout << deltaTime << "\n";
 
 	return deltaTime;
 }
