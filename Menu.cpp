@@ -16,6 +16,7 @@ Menu::Menu(const int width, const int height) : mScreenWidth(width), mScreenHeig
 	mButtonTexture[BTN_RESET] = "images//ResetButton.png";
 	mButtonTexture[BTN_AUDIO] = "images//AudioButton.png";
 	mButtonTexture[BTN_RESUME] = "images//ResumeButton.png";
+	mButtonTexture[BTN_EXIT] = "images//ExitButton.png";
 	mButtonTexture[BTN_LEFTVOLUME_ONE] = "images//LeftVolumeButton.png";
 	mButtonTexture[BTN_RIGHTVOLUME_ONE] = "images//RightVolumeButton.png";
 	mButtonTexture[BTN_LEFTVOLUME_TWO] = mButtonTexture[BTN_LEFTVOLUME_ONE];
@@ -82,6 +83,9 @@ void Menu::InitRects()
 
 	mButtonRect[BTN_AUDIO].x = screenCenter;
 	mButtonRect[BTN_AUDIO].y = mButtonRect[BTN_SCORES].y + 100;
+
+	mButtonRect[BTN_EXIT].x = screenCenter;
+	mButtonRect[BTN_EXIT].y = mButtonRect[BTN_AUDIO].y + 100;
 
 	mButtonRect[BTN_HOME].x = screenCenter;
 	mButtonRect[BTN_HOME].y = mMenuScreenRect[MENU_DEATHSCREEN].y + 195;

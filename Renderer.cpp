@@ -93,6 +93,10 @@ void Renderer::RenderMenu()
 	RenderButton(mTextures[TEXTURE_BTNPLAY], mMenu->GetButtonRect(BTN_PLAY));
 	RenderButton(mTextures[TEXTURE_BTNSCORES], mMenu->GetButtonRect(BTN_SCORES));
 	RenderButton(mTextures[TEXTURE_BTNAUDIO], mMenu->GetButtonRect(BTN_AUDIO));
+
+	if (!mAudioScreen && !mScoreScreen) {
+		RenderButton(mTextures[TEXTURE_BTNEXIT], mMenu->GetButtonRect(BTN_EXIT));
+	}
 }
 
 void Renderer::RenderDeathScreen(int highScore)
@@ -123,6 +127,7 @@ void Renderer::RenderScoreScreen(int arr[5])
 	RenderHighScoreText(HIGHSCORE_THREE, arr[2]);
 	RenderHighScoreText(HIGHSCORE_FOUR, arr[3]);
 	RenderHighScoreText(HIGHSCORE_FIVE, arr[4]);
+
 }
 
 void Renderer::RenderAudioScreen(int musicLevel, int soundLevel)
@@ -153,6 +158,12 @@ void Renderer::RenderPauseScreen(int highScore)
 	mSrc = { 0, 0, 35, 45 };
 	SDL_RenderCopy(mRenderer, mTextTexture[TEXT_HIGHSCORE], &mSrc, &textDest);
 	ClearTextPointers(TEXT_HIGHSCORE);
+}
+
+void Renderer::SetAudioAndScoreBool(const bool audioScreen, const bool scoreScreen)
+{
+	mAudioScreen = audioScreen;
+	mScoreScreen = scoreScreen;
 }
 
 void Renderer::RenderBricks()
@@ -235,6 +246,12 @@ void Renderer::RenderHighScoreText(int id, int num)
 	mHighScoreSurface[id] = TTF_RenderText_Solid(mFont, mHighScoreText[id].c_str(), mWhiteColor);
 	mHighScoreTexture[id] = SDL_CreateTextureFromSurface(mRenderer, mHighScoreSurface[id]);
 	SDL_RenderCopy(mRenderer, mHighScoreTexture[id], &mSrc, mMenu->GetHighScoreRect(id));
+
+	// set pointers to nullptr after a texture for text is created, otherwise it would overload the system
+	for (int i = 0; i < HIGHSCORE_EMPTY; i++) {
+		SDL_DestroyTexture(mHighScoreTexture[i]); mHighScoreTexture[i] = nullptr;
+		SDL_FreeSurface(mHighScoreSurface[i]); mHighScoreSurface[i] = nullptr;
+	}
 }
 
 void Renderer::RenderAudioLevels(int musicLevel, int type)
@@ -321,6 +338,7 @@ void Renderer::InitTextures()
 	mTextures[TEXTURE_BTNRESET] = IMG_LoadTexture(mRenderer, mMenu->GetButtonTexture(BTN_RESET).c_str());
 	mTextures[TEXTURE_BTNAUDIO] = IMG_LoadTexture(mRenderer, mMenu->GetButtonTexture(BTN_AUDIO).c_str());
 	mTextures[TEXTURE_BTNRESUME] = IMG_LoadTexture(mRenderer, mMenu->GetButtonTexture(BTN_RESUME).c_str());
+	mTextures[TEXTURE_BTNEXIT] = IMG_LoadTexture(mRenderer, mMenu->GetButtonTexture(BTN_EXIT).c_str());
 	mTextures[TEXTURE_BTNLEFTVOLUME] = IMG_LoadTexture(mRenderer, mMenu->GetButtonTexture(BTN_LEFTVOLUME_ONE).c_str());
 	mTextures[TEXTURE_BTNRIGHTVOLUME] = IMG_LoadTexture(mRenderer, mMenu->GetButtonTexture(BTN_RIGHTVOLUME_ONE).c_str());
 

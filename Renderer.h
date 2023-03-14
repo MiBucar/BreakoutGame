@@ -22,6 +22,7 @@ public:
 	void RenderScoreScreen(int arr[5]);
 	void RenderAudioScreen(int musicLevel, int soundLevel);
 	void RenderPauseScreen(int highScore);
+	void SetAudioAndScoreBool(const bool audioScreen, const bool scoreScreen);
 
 	void PlaySound(int id);
 
@@ -76,5 +77,8 @@ private:
 
 	const int mScreenWidth;
 	const int mScreenHeight;
+
+	bool mAudioScreen;
+	bool mScoreScreen;
 };
 

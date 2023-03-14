@@ -22,9 +22,9 @@ public:
 	void LoseHp() { mLives--; };
 	void AddToScore(int score) { mScore += score; };
 	void IncreaseLevel() { mCurrentLevel++; };
-	void ResetLevel() { mCurrentLevel = 0; };
-	void ResetScore() { mScore = 0; };
-	void ResetHp() { mLives = 3; };
+	void RestartLevel() { mCurrentLevel = 0; };
+	void RestartScore() { mScore = 0; };
+	void RestartHp() { mLives = 3; };
 	
 	// Getters
 	std::vector<Brick>* GetBricks() { return &mBrickArr; };

@@ -102,6 +102,7 @@ void Game::Rendering()
 	// If the game isn't on, render the menu and update high scores
 	if (!mGameStarted) {
 		mRenderer.RenderMenu();
+		mRenderer.SetAudioAndScoreBool(mAudioScreen, mScoreScreen);
 		if (mScoreScreen) {
 			int arr[5];
 			for (int i = 0; i < 5; i++) {
@@ -218,6 +219,11 @@ void Game::HandleMouse(SDL_MouseButtonEvent btn)
 					mRenderer.PlaySound(SOUND_BUTTON);
 					mAudioScreen = true;
 				}
+
+				else if (CheckMousePos(BTN_EXIT)) {
+					mRenderer.PlaySound(SOUND_BUTTON);
+					mIsRunning = false;
+				}
 			}
 			// Leaderboard menu
 			if (mScoreScreen && !mAudioScreen) {
@@ -313,9 +319,9 @@ void Game::Reset()
 
 void Game::Restart()
 {
-	mLevel.ResetHp();
-	mLevel.ResetLevel();
-	mLevel.ResetScore();
+	mLevel.RestartHp();
+	mLevel.RestartLevel();
+	mLevel.RestartScore();
 	mBall.RestartSpeed();
 	mLevel.LoadLevel(mRenderer.GetRenderer());
 }
