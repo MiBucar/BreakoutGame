@@ -22,8 +22,6 @@ Level::Level() : mTopWallRect{0, 0, 1280, 70}, mLivesRect{640 - 75, 20, 150, 30}
 
 Level::~Level()
 {
-	delete mDoc; mDoc = nullptr;
-	mDataElement = nullptr;
 	SDL_DestroyTexture(mBackgroundTexture); mBackgroundTexture = nullptr;
 }
 
@@ -49,6 +47,9 @@ void Level::LoadLevel(SDL_Renderer* renderer)
 	for (auto &brick : mBrickArr) {
 		brick.CreateTexture(renderer);
 	}
+
+	delete mDoc; mDoc = nullptr;
+	mDataElement = nullptr;
 }
 
 int Level::GetMaxLevel() const
